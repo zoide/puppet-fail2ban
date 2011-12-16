@@ -1,0 +1,4 @@
+module: ingent/fail2ban
+version: 0.0.1
+url: file:///home/admini/.puppet/var/puppet-module/cache/http_forge_puppetlabs_com-75a31f1d6f1ef6eb63b4479b3512ee1508209a7f/ingent-fail2ban-0.0.1.tar.gz
+installed: Fri Dec 16 12:00:41 +0100 2011

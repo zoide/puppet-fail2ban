@@ -1,0 +1,39 @@
+{
+  "version": "0.0.1",
+  "summary": "Installs fail2ban and configures its jails and email notifications",
+  "author": "ingent",
+  "source": "https://github.com/ingent/initr/tree/master/puppet/modules/fail2ban",
+  "dependencies": [
+
+  ],
+  "checksums": {
+    "app/views/fail2ban/configure.html.erb~": "cc9071c92814e3dc0e86f43426a77fbb",
+    "app/models/initr/fail2ban.rb~": "41e7c8e80296b4547757fc7639b12809",
+    "spec/spec_helper.rb": "ca19ec4f451ebc7fdb035b52eae6e909",
+    "manifests/init.pp~": "65def4afe65ff7ad34c4f2751a946b4e",
+    "Modulefile~": "abcc65ac4eda2c85f81eb28f218d5b7c",
+    "README.rst~": "1f1ed2aac41117b720e813eed62283c8",
+    "templates/jail.local.erb~": "a9efb1a179c0845b3df145bed0695d08",
+    "app/views/fail2ban/configure.html.erb": "ffd722f0271845b89dd06dce7265f510",
+    "app/models/initr/fail2ban.rb": "41e7c8e80296b4547757fc7639b12809",
+    "init.rb": "f3291fddc44fc9af1598d75adcb06eff",
+    "files/mail.conf": "822f301f8efeba0ab67178787e4789ea",
+    "app/controllers/fail2ban_controller.rb~": "9778c88328ac4f5395ac5f3285209201",
+    "app/controllers/fail2ban_controller.rb": "9778c88328ac4f5395ac5f3285209201",
+    "files/munin-fail2ban_all_jails": "0e57fa7d6ec4dcaa269b8208bd19ee33",
+    "tests/init.pp": "c37a737b004f7efa4774be916cf52112",
+    "spec/spec.opts": "a600ded995d948e393fbe2320ba8e51c",
+    "metadata.json": "d34d0b70aba36510fbc2df4e667479ef",
+    "templates/jail.local.erb": "90e5f81d6ab1504690322fcf44298559",
+    "Modulefile": "dceaff7c89e95555f61376a7ad34b60d",
+    "manifests/init.pp": "cdeccf6bc02aee2a3e0382a6c389eb8f",
+    "README.rst": "54695c7d9f5ec6db50168e36f12c0e71"
+  },
+  "types": [
+
+  ],
+  "project_page": "http://www.ingent.net/projects/initr/wiki",
+  "license": "GPLv2",
+  "name": "ingent-fail2ban",
+  "description": "Installs fail2ban and configures its jails and email notifications"
+}
