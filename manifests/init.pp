@@ -24,9 +24,10 @@ class fail2ban ($jails = [],
         notify => Exec["fail2ban.local-generate"],
     }
     file {
-        "${f2b_etc}/filter.d/mail.conf" :
-            mode => 644,
-            source => "puppet:///modules/fail2ban/mail.conf" ;
+        "${f2b_etc}/filter.d" :
+            source => "puppet:///modules/fail2ban/filter.d",
+            recurse => true,
+            force => true ;
 
         "${jail_local_d}/00_jail.local" :
             mode => 644,
