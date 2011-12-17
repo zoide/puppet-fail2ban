@@ -3,12 +3,13 @@
 ##################
 
 [DEFAULT]
-ignoreip = <%= ingoreip %>
+ignoreip = <%= ignoreip %>
 bantime  = 600
 findtime  = 600
 maxretry = 3
 backend = auto
 
+<% if jails.include? "pop3" -%>
 [pop3-iptables]
 enabled  = <%= jails.include? "pop3" %>
 filter   = mail
@@ -18,7 +19,9 @@ action   = iptables[name=pop3, port=pop3, protocol=tcp]
 <% end -%>
 logpath  = /var/log/maillog
 maxretry = 5
+<% end -%>
 
+<% if jails.include? "ssh" -%>
 [ssh-iptables]
 enabled  = <%= jails.include? "ssh" %>
 filter   = sshd
@@ -33,6 +36,22 @@ logpath  = /var/log/secure
 <% end -%>
 maxretry = 5
 
+[ssh-ddos]
+enabled  = <%= jails.include? "ssh" %>
+filter   = sshd-ddos
+action   = iptables[name=SSH, port=ssh, protocol=tcp]
+<% unless mailto.blank? -%>
+           sendmail-whois[name=SSH, dest=<%= mailto %>, sender=fail2ban@<%= fqdn %>]
+<% end -%>
+<% if operatingsystem == "Debian" -%>
+logpath  = /var/log/auth.log
+<% else -%>
+logpath  = /var/log/secure
+<% end -%>
+maxretry = 5
+<% end -%>
+
+<% if jails.include? "vsftpd" -%>
 [vsftpd-iptables]
 enabled  = <%= jails.include? "vsftpd" %>
 filter   = vsftpd
@@ -43,9 +62,11 @@ action   = iptables[name=VSFTPD, port=ftp, protocol=tcp]
 logpath  = /var/log/vsftpd.log
 maxretry = 5
 bantime  = 1800
+<% end -%>
 
 <% if custom_jails and custom_jails != "" -%>
 # Additional configuration, configured from initr
-
 <%= custom_jails %>
 <% end -%>
+
+# Added by fail2ban::jail

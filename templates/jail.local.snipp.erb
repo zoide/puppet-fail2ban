@@ -1,0 +1,10 @@
+[<%= jail_name_r %>]
+enabled  = <%= enabled %>
+filter   = <%= filter_r %>
+action   = <%= action %>
+<% unless mailto.blank? -%>
+           sendmail-whois[name=<%= jail_name_r %>, <%= mailto %>, sender=fail2ban@<%= fqdn %>]
+<% end -%>
+logpath  = <%= logpath %>
+maxretry = <%= maxretry %>
+
