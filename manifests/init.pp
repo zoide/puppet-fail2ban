@@ -5,7 +5,8 @@
 class fail2ban ($jails = [],
     $mailto = "",
     $custom_jails = "",
-    $ignoreip = "127.0.0.1") {
+    $ignoreip = "127.0.0.1",
+    $action_handler="shorewall") {
     package {
         ["fail2ban", "gamin", "iptables"] :
             ensure => installed ;
