@@ -7,57 +7,62 @@ class fail2ban (
   $mailto         = "",
   $custom_jails   = "",
   $ignoreip       = "127.0.0.1",
-  $action_handler = "shorewall") {
-  package { ["fail2ban", "gamin", "iptables"]: ensure => installed; }
+  $action_handler = 'shorewall',
+  $ensure         = 'present') {
+  package { ["fail2ban"]: ensure => $ensure; }
 
-  service { "fail2ban":
-    ensure => running,
-    enable => true;
-  }
-  $f2b_etc = "/etc/fail2ban"
-  $jail_local_d = "${f2b_etc}/jail.local.d"
+  package { ["gamin", "iptables"]: }
 
-  File {
-    owner   => root,
-    group   => root,
-    require => Package["fail2ban"],
-    notify  => Exec["fail2ban.local-generate"],
-  }
+  if $ensure == 'present' {
+    service { "fail2ban":
+      ensure => running,
+      enable => true;
+    }
+    $f2b_etc = "/etc/fail2ban"
+    $jail_local_d = "${f2b_etc}/jail.local.d"
 
-  file {
-    "${f2b_etc}/filter.d":
-      source  => "puppet:///modules/fail2ban/filter.d",
-      recurse => true,
-      force   => true;
+    File {
+      owner   => root,
+      group   => root,
+      require => Package["fail2ban"],
+      notify  => Exec["fail2ban.local-generate"],
+    }
 
-    "${jail_local_d}/00_jail.local":
-      mode    => 644,
-      content => template("fail2ban/jail.local.erb");
-
-    "${jail_local_d}":
-      ensure => "directory",
-  }
-
-  exec { "fail2ban.local-generate":
-    command     => "cat ${jail_local_d}/* >${f2b_etc}/jail.local",
-    refreshonly => true,
-    notify      => Service["fail2ban"]
-  }
-
-  # munin
-  # TODO better way to know if node is including munin class
-  if $munin_graphs {
     file {
-      "/etc/munin/plugins/all_jails":
-        mode    => 755,
-        source  => "puppet:///modules/fail2ban/munin-all_jails",
-        require => Package[$munin],
-        notify  => Service["munin-node"];
+      "${f2b_etc}/filter.d":
+        source  => "puppet:///modules/fail2ban/filter.d",
+        recurse => true,
+        force   => true;
 
-      "/etc/munin/plugin-conf.d/all_jails":
-        content => "[all_jails]\nuser root",
-        require => Package[$munin],
-        notify  => Service["munin-node"];
+      "${jail_local_d}/00_jail.local":
+        mode    => 644,
+        content => template("fail2ban/jail.local.erb");
+
+      "${jail_local_d}":
+        ensure => "directory",
+    }
+
+    exec { "fail2ban.local-generate":
+      command     => "cat ${jail_local_d}/* >${f2b_etc}/jail.local",
+      refreshonly => true,
+      notify      => Service["fail2ban"]
+    }
+
+    # munin
+    # TODO better way to know if node is including munin class
+    if $munin_graphs {
+      file {
+        "/etc/munin/plugins/all_jails":
+          mode    => 755,
+          source  => "puppet:///modules/fail2ban/munin-all_jails",
+          require => Package[$munin],
+          notify  => Service["munin-node"];
+
+        "/etc/munin/plugin-conf.d/all_jails":
+          content => "[all_jails]\nuser root",
+          require => Package[$munin],
+          notify  => Service["munin-node"];
+      }
     }
   }
 
