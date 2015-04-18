@@ -2,7 +2,7 @@
 enabled  = <%= enabled %>
 filter   = <%= filter_r %>
 action   = <%= action %>
-<% unless mailto.blank? -%>
+<% unless mailto.empty? -%>
            sendmail-whois[name=<%= jail_name_r %>, <%= mailto %>, sender=fail2ban@<%= fqdn %>]
 <% end -%>
 logpath  = <%= logpath %>

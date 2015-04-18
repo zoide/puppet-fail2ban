@@ -14,7 +14,7 @@ backend = auto
 enabled  = <%= jails.include? "pop3" %>
 filter   = mail
 action   = <%= action_handler %>[name=pop3, port=pop3, protocol=tcp]
-<% unless mailto.blank? -%>
+<% unless mailto.empty? -%>
            sendmail-whois[name=POP3, <%= mailto %>, sender=fail2ban@<%= fqdn %>]
 <% end -%>
 logpath  = /var/log/maillog
@@ -26,7 +26,7 @@ maxretry = 5
 enabled  = <%= jails.include? "ssh" %>
 filter   = sshd
 action   = <%= action_handler %>[name=SSH, port=ssh, protocol=tcp]
-<% unless mailto.blank? -%>
+<% unless mailto.empty? -%>
            sendmail-whois[name=SSH, dest=<%= mailto %>, sender=fail2ban@<%= fqdn %>]
 <% end -%>
 <% if operatingsystem == "Debian" -%>
@@ -40,7 +40,7 @@ maxretry = 5
 enabled  = <%= jails.include? "ssh" %>
 filter   = sshd-ddos
 action   = <%= action_handler %>[name=SSH, port=ssh, protocol=tcp]
-<% unless mailto.blank? -%>
+<% unless mailto.empty? -%>
            sendmail-whois[name=SSH, dest=<%= mailto %>, sender=fail2ban@<%= fqdn %>]
 <% end -%>
 <% if operatingsystem == "Debian" -%>
@@ -56,7 +56,7 @@ maxretry = 5
 enabled  = <%= jails.include? "vsftpd" %>
 filter   = vsftpd
 action   = <%= action_handler %>[name=VSFTPD, port=ftp, protocol=tcp]
-<% unless mailto.blank? -%>
+<% unless mailto.empty? -%>
            sendmail-whois[name=VSFTPD, dest=<%= mailto %>, sender=fail2ban@<%= fqdn %>]
 <% end -%>
 logpath  = /var/log/vsftpd.log
